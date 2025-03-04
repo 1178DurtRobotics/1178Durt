@@ -19,9 +19,10 @@ import frc.robot.Constants.ModluleConstant.Drive;
 public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
+    public static final int kOperatorControllerPort = 1;
     public static final double kCubic = 0.95;
     public static final double kLinear = 0.05;
-    public static final double kDeadband = 0.25;
+    public static final double kDeadband = 0.10;
   }
 
   public static class CurrentLimit{
@@ -46,14 +47,14 @@ public final class Constants {
     public static class FrontRight{
       public static final int kDriveID = 7;
       public static final int kTurnID = 8;
-      public static final int kEncoderID = 1;
+      public static final int kEncoderID = 3;
       public static final double m_offset = 5.359;
       public static final Translation2d kPosition = new Translation2d(kLength/2.0,-kWidth/2.0);
     }
     public static class RearLeft{
       public static final int kDriveID = 3;
       public static final int kTurnID = 4;
-      public static final int kEncoderID = 3;
+      public static final int kEncoderID = 1;
       public static final double m_offset = 2.602;
       public static final Translation2d kPosition = new Translation2d(-kLength/2.0,kWidth/2.0);
     }
