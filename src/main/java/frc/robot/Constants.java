@@ -91,5 +91,9 @@ public final class Constants {
     public static final double kVoltComp = 11.0;
   }
 
+  public static class IntakeConstants{
+    public static final int intakeID = 9;
+  }
+
   public static double kVoltComp;
 }

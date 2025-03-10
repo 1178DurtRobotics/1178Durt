@@ -11,7 +11,9 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Coral;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Intake;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -27,6 +29,8 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Drivetrain m_drivetrain = new Drivetrain();
   private final Coral m_coral = new Coral();
+  private final Intake m_intake = new Intake();
+
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -35,6 +39,7 @@ public class RobotContainer {
       new CommandXboxController(OperatorConstants.kOperatorControllerPort);
 
   private final DriveByController m_driveCommand = new DriveByController(m_drivetrain, m_driverController);
+  
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -61,10 +66,17 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_operatorController.x().and(new Trigger(m_coral::isArmUp).negate()).onTrue(m_coral.liftArm());
-    m_operatorController.x().and(new Trigger(m_coral::isArmUp)).onTrue(m_coral.lowerArm());
-    m_operatorController.y().and(new Trigger(m_coral::isPinUp)).onTrue(m_coral.pinRelease());
+    m_operatorController.b().onTrue(m_coral.liftArm());
+    m_operatorController.x().onTrue(m_coral.lowerArm());
 
+    m_operatorController.y().onTrue(m_coral.pinRelease());
+    m_operatorController.a().onTrue(m_coral.pinHold());
+
+    m_driverController.y().onTrue(m_coral.downClimb());
+    m_driverController.a().onTrue(m_coral.upClimb());
+
+    m_driverController.rightTrigger().whileTrue(m_intake.intakeIn());
+    m_driverController.leftTrigger().whileTrue(m_intake.intakeOut());
   }
 
   /**
@@ -74,6 +86,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+    return Autos.centerAuto(m_drivetrain, m_coral);
   }
 }

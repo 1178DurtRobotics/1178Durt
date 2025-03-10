@@ -11,11 +11,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Coral extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
- private final DoubleSolenoid m_coralArm = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 4, 5);
- private final DoubleSolenoid m_coralPin = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3);
+ private final DoubleSolenoid m_coralArm = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 5, 4);
+ private final DoubleSolenoid m_coralPin = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 3, 2);
+ private final DoubleSolenoid m_climbArm = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 1, 0);
  
 private int armState;
 private int pinState;
+private int climberState;
 
   public Coral() {}
 
@@ -28,14 +30,14 @@ private int pinState;
     armState = 1;
     return runOnce(
         () -> {
-          m_coralArm.set(DoubleSolenoid.Value.kForward);
+          m_coralArm.set(DoubleSolenoid.Value.kReverse);
         });
   }
   public Command lowerArm(){
     armState = -1;
     return runOnce(
       () -> {
-        m_coralArm.set(DoubleSolenoid.Value.kReverse);
+        m_coralArm.set(DoubleSolenoid.Value.kForward);
       }
     );
   }
@@ -43,7 +45,7 @@ private int pinState;
     pinState = 1;
     return runOnce(
       () -> {
-        m_coralPin.set(DoubleSolenoid.Value.kForward);
+        m_coralPin.set(DoubleSolenoid.Value.kReverse);
       }
     );
   }
@@ -51,7 +53,23 @@ private int pinState;
     pinState = -1;
     return runOnce(
       () -> {
-        m_coralPin.set(DoubleSolenoid.Value.kReverse);
+        m_coralPin.set(DoubleSolenoid.Value.kForward);
+      }
+    );
+  }
+  public Command upClimb(){
+    climberState = 1;
+    return runOnce(
+      () -> {
+        m_climbArm.set(DoubleSolenoid.Value.kForward);
+      }
+    );
+  }
+  public Command downClimb(){
+    climberState = -1;
+    return runOnce(
+      () -> {
+        m_climbArm.set(DoubleSolenoid.Value.kReverse);
       }
     );
   }
